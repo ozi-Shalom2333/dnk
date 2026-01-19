@@ -1,4 +1,5 @@
 import Hero from "./components/hero";
+import Products from "./components/products";
 import PromoSection from "./components/promoSection";
 
 
@@ -7,7 +8,7 @@ export default function Home() {
     <div className="">
       <Hero/>
       <PromoSection/>
-      
+      <Products/>
     </div>
   );
 }

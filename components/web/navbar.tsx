@@ -33,8 +33,8 @@ export default function Navbar() {
           <Link href="/">WOMEN</Link>
           <Link href="/">MEN</Link>
           <Link href="/">ACCESSORIES</Link>
-          <Link href="/">ABOUT</Link>
-          <Link href="/">CONTACT US</Link>
+          <Link href="/about">ABOUT</Link>
+          <Link href="/contact">CONTACT US</Link>
         </nav>
 
         <div className="flex items-center gap-5 text-sm font-bold">
