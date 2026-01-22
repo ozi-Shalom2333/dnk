@@ -17,7 +17,7 @@ interface CardItem {
 interface CardProps {
   cards?: CardItem[];
   className?: string;
-  overlayOpacity?: number; // 0 – 100
+  overlayOpacity?: number;
   showOverlayOnHover?: boolean;
 }
 
