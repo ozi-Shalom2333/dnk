@@ -71,6 +71,7 @@ export default function Navbar() {
     >
       <div className="flex items-center justify-between px-6 py-5 max-w-7xl mx-auto">
         <motion.div whileHover={{ scale: 1.03 }}>
+          <Link href="/">
           <Image
             src={logo}
             alt="Brand logo"
@@ -79,6 +80,7 @@ export default function Navbar() {
             className="object-contain w-[110px] sm:w-[130px] md:w-[140px]"
             priority
           />
+          </Link>
         </motion.div>
 
         <nav className="hidden lg:flex items-center gap-8 text-sm font-bold">
