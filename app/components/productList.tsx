@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import shoe1 from '@/public/sports-shoe1.webp'
 import blueShoe from '@/public/sports-shoe3.webp'
 import menJeans from '@/public/product-m-jeans1.webp'
@@ -8,9 +11,8 @@ import anchorBracelet from '@/public/product-accessory2.webp'
 import bohoBangle from '@/public/product-accessory1.webp'
 import brownPurse from '@/public/product-bag1.webp'
 import redBag from '@/public/product-bag3.webp'
-import Image, { StaticImageData }  from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { FaStar } from 'react-icons/fa';
-
 
 interface Product {
   id: number;
@@ -34,35 +36,69 @@ export default function ProductList() {
     { id: 10, name: "Bright Red Bag", category: "Accessories", price: 100, image: redBag },
   ];
 
-    return(
-       <section className="container mx-auto grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
-            {productsData.map((product) => (
-           <div key={product.id} className='flex flex-col p-4 gap-2 rounded-md bg-white hover:shadow-lg transition-shadow duration-300'>
-              <div  className='min-h-9'>
-                <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden">
-                    <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                        placeholder="blur"
-                        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                    />
-                </div>
-                <h2 className='font-bold'>{product.name}</h2>
-                <p className='text-[#919293]'>{product.category}</p>
-                <p className='font-semibold'>${product.price.toFixed(2)}</p>
-                <div className="flex text-yellow-500">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                    <FaStar key={i} />
-                    ))}
-                </div>
-              </div>
+  return (
+    <motion.section
+      className="container mx-auto grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.07,
+            delayChildren: 0.1,
+          },
+        },
+      }}
+    >
+      {productsData.map((product, index) => (
+        <motion.div
+          key={product.id}
+          className="flex flex-col p-4 gap-2 rounded-md bg-white hover:shadow-lg transition-shadow duration-300"
+          initial={{ opacity: 0, y: 15, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.5,
+            ease: "easeOut",
+            delay: index * 0.05,
+          }}
+          whileHover={{
+            y: -5,
+            boxShadow: "0 10px 30px rgba(0, 132, 214, 0.08)",
+            transition: { duration: 0.2 },
+          }}
+        >
+          <div className="min-h-9">
+            <motion.div
+              className="relative aspect-[4/5] w-full rounded-sm overflow-hidden"
+              whileHover={{
+                scale: 1.03,
+                transition: { duration: 0.3 },
+              }}
+            >
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+                placeholder="blur"
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+              />
+            </motion.div>
+            <h2 className="font-bold">{product.name}</h2>
+            <p className="text-[#919293]">{product.category}</p>
+            <p className="font-semibold">${product.price.toFixed(2)}</p>
+            <div className="flex text-yellow-500">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <FaStar key={i} />
+              ))}
             </div>
-            ))}
-         
-       </section>
-    );
-  }
-
-
+          </div>
+        </motion.div>
+      ))}
+    </motion.section>
+  );
+}
