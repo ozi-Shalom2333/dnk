@@ -17,7 +17,7 @@ export default function Hero() {
         placeholder="blur"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-black/35 z-10" />
+      <div className="absolute inset-0 bg-blue-200/30 z-10" />
       
       {/* Desktop Content */}
       <div className="hidden md:flex md:flex-col md:gap-3 lg:gap-4 z-20">
