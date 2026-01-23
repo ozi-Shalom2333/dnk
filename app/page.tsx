@@ -2,6 +2,7 @@ import Hero from "./components/hero";
 import HeroSecond from "./components/heroSecond";
 import Products from "./components/products";
 import PromoSection from "./components/promoSection";
+import Value from "./components/value";
 
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
       <PromoSection/>
       <Products/>
       <HeroSecond/>
+      <Value/>
     </div>
   );
 }
