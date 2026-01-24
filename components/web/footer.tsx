@@ -39,7 +39,7 @@ export default function Footer() {
       transition={{ duration: 0.8 }}
       className="relative bg-gradient-to-b from-gray-50 to-white py-12 px-6 pl-10 md:py-16 lg:py-20"
     >
-      {/* Background pattern */}
+
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 0.03 }}

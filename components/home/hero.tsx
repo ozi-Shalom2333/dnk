@@ -7,6 +7,9 @@ import heroImage from '@/public/home-new-bg-free-img.webp';
 export default function Hero() {
   return (
     <section className="relative h-[80vh] md:h-[60vh] lg:h-screen pt-17 flex flex-col justify-center p-0 md:pl-15 z-0 overflow-hidden">
+      <div className='flex items-center justify-between px-6 py-5 max-w-7xl mx-auto'>
+
+      </div>
       <Image
         src={heroImage}
         alt="Summer fashion collection – woman with sunglasses in sunny weather"
@@ -15,7 +18,7 @@ export default function Hero() {
         quality={85}
         sizes="100vw"
         placeholder="blur"
-        className="object-cover"
+        className="absolute inset-0 object-cover"
       />
       <div className="absolute inset-0 bg-blue-200/30 z-10" />
       
