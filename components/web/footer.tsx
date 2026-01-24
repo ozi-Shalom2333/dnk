@@ -29,19 +29,19 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <h2 className="font-bold text-lg mb-4">Quick Links</h2>
             {quickLinks.map((link) => (
-                <Link key={link.title} href={link.href}>{link.title}</Link>
+                <Link key={link.title} href={link.href} className="text-sm md:text-base hover:text-gray-500 transition-colors duration-300">{link.title}</Link>
             ))}
           </div>
           <div className="flex flex-col gap-4">
             <h2 className="font-bold text-lg mb-4">For Her</h2>
             {forHer.map((link) => (
-                <Link key={link.title} href={link.href}>{link.title}</Link>
+                <Link key={link.title} href={link.href} className="text-sm md:text-base hover:text-gray-500 transition-colors duration-300">{link.title}</Link>
             ))}
           </div>
           <div className="flex flex-col gap-4">
             <h2 className="font-bold text-lg mb-4">For Him</h2>
             {forHim.map((link) => (
-                <Link key={link.title} href={link.href}>{link.title}</Link>
+                <Link key={link.title} href={link.href} className="text-sm md:text-base hover:text-gray-500 transition-colors duration-300">{link.title}</Link>
             ))}
           </div>
           <div className="flex flex-col gap-4">

@@ -38,7 +38,7 @@ export default function ProductList() {
 
   return (
     <motion.section
-      className="container mx-auto grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5"
+      className="container mx-auto grid grid-cols-2 gap-4 md:gap-6 lg:gap-8 md:grid-cols-3 lg:grid-cols-5"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
@@ -56,28 +56,26 @@ export default function ProductList() {
       {productsData.map((product, index) => (
         <motion.div
           key={product.id}
-          className="flex flex-col p-4 gap-2 rounded-md bg-white hover:shadow-lg transition-shadow duration-300"
           initial={{ opacity: 0, y: 15, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{
-            duration: 0.5,
+            duration: 0.45,
             ease: "easeOut",
             delay: index * 0.05,
           }}
           whileHover={{
-            y: -5,
-            boxShadow: "0 10px 30px rgba(0, 132, 214, 0.08)",
-            transition: { duration: 0.2 },
+            y: -6,
+            transition: { duration: 0.25 },
           }}
+          className="group rounded-xl bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
         >
-          <div className="min-h-9">
+          {/* Image */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-gray-50">
             <motion.div
-              className="relative aspect-[4/5] w-full rounded-sm overflow-hidden"
-              whileHover={{
-                scale: 1.03,
-                transition: { duration: 0.3 },
-              }}
+              whileHover={{ scale: 1.06 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0"
             >
               <Image
                 src={product.image}
@@ -88,13 +86,28 @@ export default function ProductList() {
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
               />
             </motion.div>
-            <h2 className="font-bold">{product.name}</h2>
-            <p className="text-[#919293]">{product.category}</p>
-            <p className="font-semibold">${product.price.toFixed(2)}</p>
-            <div className="flex text-yellow-500">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <FaStar key={i} />
-              ))}
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col gap-2 px-3 pt-4 pb-5">
+            <h2 className="text-sm font-semibold leading-tight line-clamp-2 group-hover:text-black transition-colors">
+              {product.name}
+            </h2>
+
+            <p className="text-xs uppercase tracking-wide text-gray-400">
+              {product.category}
+            </p>
+
+            <div className="flex items-center justify-between pt-1">
+              <p className="font-semibold text-sm text-gray-900">
+                ${product.price.toFixed(2)}
+              </p>
+
+              <div className="flex items-center gap-[2px] text-yellow-500 text-xs">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <FaStar key={i} />
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
