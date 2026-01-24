@@ -33,7 +33,7 @@ export default function Value() {
 
     return (
         <motion.section
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4 md:p-6 lg:p-8 gap-6 md:gap-8 mt-6 md:mt-8 lg:mt-10"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-[#F5F7F9] p-6 md:p-8 lg:p-10 gap-6 md:gap-8 mt-6 md:mt-8 lg:mt-10"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -51,7 +51,7 @@ export default function Value() {
             {value.map((item, index) => (
                 <motion.div
                     key={index}
-                    className="text-center flex flex-col gap-4 md:gap-6 items-center justify-center p-6 rounded-lg hover:bg-gray-50 transition-colors duration-300"
+                    className="text-center flex flex-col gap-4 md:gap-6 items-center justify-center p-10 rounded-lg hover:bg-gray-50 transition-colors duration-300"
                     variants={{
                         hidden: { opacity: 0, y: 20 },
                         visible: {

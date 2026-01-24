@@ -45,10 +45,10 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <button className="px-5 py-3 bg-white text-black text-[14px] font-bold">
+          <button className="px-5 py-3 bg-white hover:bg-black hover:text-white text-black text-[14px] font-bold transition-all duration-300 ease-in-out">
             SHOP NOW
           </button>
-          <button className="px-5 py-3 text-white text-[14px] border border-white font-bold">
+          <button className="px-5 py-3 text-white hover:bg-white hover:text-black text-[14px] border border-white font-bold transition-all duration-300 ease-in-out">
             FIND MORE
           </button>
         </motion.div>

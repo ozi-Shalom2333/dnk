@@ -6,7 +6,7 @@ import CaroselSlider from "./caroselSlider";
 
 export default function PromoSection() {
   return (
-    <section className="bg-white py-12 min-h-screen flex flex-col items-center gap-12">
+    <section className="bg-white py-12 min-h-[40vh] md:min-h-[60vh] lg:min-h-screen flex flex-col items-center gap-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

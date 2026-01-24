@@ -65,13 +65,13 @@ const Card: React.FC<CardProps> = ({
     <div className="container grid grid-cols-1 md:grid-cols-3 mx-auto p-4 gap-6 md:gap-2.5">
        {
         cardsToRender.map((e)=>(
-          <div key={e.id} className="relative min-h-[40vh] md:min-h-[43vh] lg:min-h-[55vh] p-4 flex flex-col justify-end gap-4" >
+          <div key={e.id} className="relative min-h-[30vh] md:min-h-[40vh] lg:min-h-[50vh] p-4 flex flex-col justify-end gap-4" >
              <Image
                 src={e.image}
                 alt={e.altText ?? e.title}
                 fill
                 placeholder="blur"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 768px) 90vw, 35vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 priority={e.id === 1}
               />

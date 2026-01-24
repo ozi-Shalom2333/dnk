@@ -12,7 +12,7 @@ export default function HeroSecond() {
       y: 0,
       transition: {
         duration: 0.6,
-       ease: [0.43, 0.13, 0.23, 0.96] as const, // Changed back to string to avoid TypeScript errors
+       ease: [0.43, 0.13, 0.23, 0.96] as const,
       },
     },
   };
@@ -21,20 +21,20 @@ export default function HeroSecond() {
     <motion.section
       className="mt-10 md:mt-20 p-4 md:p-6 lg:p-8"
       initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }} // Changed from animate to whileInView
-      viewport={{ once: true }} // Add this to only animate once
+      whileInView={{ opacity: 1 }} 
+      viewport={{ once: true }} 
       transition={{ duration: 0.8 }}
     >
       <motion.div
-        className="relative h-[80vh] md:h-[60vh] lg:h-[80vh] pt-20 flex flex-col justify-center p-0 md:pl-15 z-0 overflow-hidden"
+        className="relative h-[80vh] md:h-[60vh] lg:h-[80vh] pt-20 flex flex-col justify-center p-6 md:p-8 md:pl-15 z-0 overflow-hidden"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }} // Changed from animate to whileInView
+        whileInView={{ opacity: 1 }} 
         viewport={{ once: true }}
         transition={{ duration: 1 }}
       >
         <motion.div
           initial={{ scale: 1.05, opacity: 0.8 }}
-          whileInView={{ scale: 1, opacity: 1 }} // Changed from animate to whileInView
+          whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="absolute inset-0"
@@ -54,7 +54,7 @@ export default function HeroSecond() {
         <motion.div
           className="absolute inset-0 bg-blue-200/30 z-10"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }} // Changed from animate to whileInView
+          whileInView={{ opacity: 1 }} 
           viewport={{ once: true }}
           transition={{ duration: 1.5, ease: "easeOut" }}
         />
@@ -63,7 +63,7 @@ export default function HeroSecond() {
         <motion.div
           className="hidden z-20 w-full md:w-3/6 md:flex md:flex-col justify-center gap-6"
           initial="hidden"
-          whileInView="visible" // Changed from animate to whileInView
+          whileInView="visible" 
           viewport={{ once: true }}
           variants={{
             hidden: { opacity: 0 },
@@ -126,7 +126,7 @@ export default function HeroSecond() {
         <motion.div
           className="w-full md:hidden z-20 px-4 flex flex-col gap-4 text-center"
           initial="hidden"
-          whileInView="visible" // Changed from animate to whileInView
+          whileInView="visible"
           viewport={{ once: true }}
           variants={{
             hidden: { opacity: 0 },
@@ -168,7 +168,7 @@ export default function HeroSecond() {
           </motion.h2>
           
           <motion.button
-            className="text-[10px] font-semibold bg-white outline-0 w-full py-4 hover:bg-black hover:text-white"
+            className="text-[10px] font-semibold bg-white outline-0 w-full py-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out"
             variants={textVariants}
             whileHover={{
               scale: 1.05,
