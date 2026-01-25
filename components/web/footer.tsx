@@ -251,7 +251,7 @@ export default function Footer() {
 
         <div className="mt-16 pt-8 border-t border-gray-200 text-center">
           <p className="text-gray-600 text-sm">
-            © {new Date().getFullYear()} Your Brand. All rights reserved.
+            © {new Date().getFullYear()} DNK. All rights reserved.
           </p>
         </div>
       </div>
