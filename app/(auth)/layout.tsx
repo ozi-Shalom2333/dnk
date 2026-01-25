@@ -1,33 +1,19 @@
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-})
-
-export const metadata: Metadata = {
-  title: "DNK - Authentication",
-  description: "Sign in or create your DNK account",
-}
 
 export default function AuthLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode
+    children: React.ReactNode
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  )
+    return (
+        <div className="relative min-h-screen flex items-center justify-center">
+          <div className="absolute top-10 left-6 z-100 rounded-full shadow-lg hover:shadow-xl transition-all ">
+            <Link href="/" className={buttonVariants({variant:"secondary"})}><ArrowLeft />Go Back</Link>
+          </div>
+            {children}
+        </div>
+    )
 }

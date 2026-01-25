@@ -22,7 +22,7 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
     
-    // Simulate login process
+
     await new Promise(resolve => setTimeout(resolve, 2000))
     
     setIsLoading(false)
@@ -56,7 +56,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
       
@@ -66,13 +65,11 @@ export default function LoginPage() {
         initial="hidden"
         animate="visible"
       >
-        {/* Card Container */}
         <motion.div 
           className="bg-card border border-border rounded-2xl shadow-xl shadow-primary/5 p-8 backdrop-blur-sm"
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Header */}
           <motion.div className="text-center mb-8" variants={itemVariants}>
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 mb-4">
               <Lock className="w-7 h-7 text-primary" />
@@ -85,9 +82,7 @@ export default function LoginPage() {
             </p>
           </motion.div>
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email Field */}
             <motion.div className="space-y-2" variants={itemVariants}>
               <Label htmlFor="email" className="text-foreground/80">
                 Email Address
@@ -106,7 +101,6 @@ export default function LoginPage() {
               </div>
             </motion.div>
 
-            {/* Password Field */}
             <motion.div className="space-y-2" variants={itemVariants}>
               <div className="flex items-center justify-between">
                 <Label htmlFor="password" className="text-foreground/80">
@@ -144,7 +138,6 @@ export default function LoginPage() {
               </div>
             </motion.div>
 
-            {/* Remember Me & Submit */}
             <motion.div variants={itemVariants} className="space-y-4 pt-2">
               <div className="flex items-center space-x-2">
                 <input
@@ -195,7 +188,6 @@ export default function LoginPage() {
             </motion.div>
           </form>
 
-          {/* Divider */}
           <motion.div variants={itemVariants} className="my-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -209,7 +201,6 @@ export default function LoginPage() {
             </div>
           </motion.div>
 
-          {/* Social Login */}
           <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
             <Button
               type="button"
@@ -229,7 +220,6 @@ export default function LoginPage() {
             </Button>
           </motion.div>
 
-          {/* Sign Up Link */}
           <motion.p
             variants={itemVariants}
             className="mt-6 text-center text-sm text-muted-foreground"
@@ -244,7 +234,6 @@ export default function LoginPage() {
           </motion.p>
         </motion.div>
 
-        {/* Footer */}
         <motion.p
           className="mt-6 text-center text-xs text-muted-foreground/60"
           variants={itemVariants}
