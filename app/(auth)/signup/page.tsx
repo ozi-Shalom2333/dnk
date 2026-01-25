@@ -4,29 +4,33 @@ import React, { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import google from "@/public/google logo (Community).webp"
-import Image from "next/image"
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Github, Chrome } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Github, Chrome, User, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [name, setName] = useState("")
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     
-    // Simulate login process
+    // Simulate signup process
     await new Promise(resolve => setTimeout(resolve, 2000))
     
     setIsLoading(false)
-    console.log("Login attempt with:", { email, password })
+    console.log("Signup attempt with:", { name, email, password })
   }
 
   const containerVariants = {
@@ -37,7 +41,7 @@ export default function LoginPage() {
       transition: {
         duration: 0.6,
         ease: [0.25, 0.46, 0.45, 0.94] as const,
-        staggerChildren: 0.1,
+        staggerChildren: 0.08,
       },
     },
   }
@@ -53,6 +57,16 @@ export default function LoginPage() {
       },
     },
   }
+
+  const passwordRequirements = [
+    { regex: /.{8,}/, text: "At least 8 characters" },
+    { regex: /[A-Z]/, text: "One uppercase letter" },
+    { regex: /[a-z]/, text: "One lowercase letter" },
+    { regex: /\d/, text: "One number" },
+  ]
+
+  const isPasswordValid = passwordRequirements.every(req => req.regex.test(password))
+  const doPasswordsMatch = password === confirmPassword && password.length > 0
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -75,18 +89,37 @@ export default function LoginPage() {
           {/* Header */}
           <motion.div className="text-center mb-8" variants={itemVariants}>
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 mb-4">
-              <Lock className="w-7 h-7 text-primary" />
+              <User className="w-7 h-7 text-primary" />
             </div>
             <h1 className="text-2xl font-bold text-foreground mb-2">
-              Welcome Back
+              Create Account
             </h1>
             <p className="text-muted-foreground text-sm">
-              Sign in to your account to continue
+              Join us and start your journey
             </p>
           </motion.div>
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Signup Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name Field */}
+            <motion.div className="space-y-2" variants={itemVariants}>
+              <Label htmlFor="name" className="text-foreground/80">
+                Full Name
+              </Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="pl-10 h-11"
+                  required
+                />
+              </div>
+            </motion.div>
+
             {/* Email Field */}
             <motion.div className="space-y-2" variants={itemVariants}>
               <Label htmlFor="email" className="text-foreground/80">
@@ -108,23 +141,15 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <motion.div className="space-y-2" variants={itemVariants}>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-foreground/80">
-                  Password
-                </Label>
-                <Link
-                  href="/forgot-password"
-                  className="text-xs text-primary hover:text-primary/80 hover:underline transition-colors"
-                >
-                  Forgot password?
-                </Link>
-              </div>
+              <Label htmlFor="password" className="text-foreground/80">
+                Password
+              </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10 h-11"
@@ -142,28 +167,115 @@ export default function LoginPage() {
                   )}
                 </button>
               </div>
+              
+              {/* Password Requirements */}
+              <div className="space-y-1.5 pt-2">
+                {passwordRequirements.map((req, index) => {
+                  const isMet = req.regex.test(password)
+                  return (
+                    <motion.div
+                      key={index}
+                      className="flex items-center gap-2 text-xs"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ 
+                        opacity: password.length > 0 ? 1 : 0.5, 
+                        x: password.length > 0 ? 0 : -10 
+                      }}
+                    >
+                      <div className={cn(
+                        "w-4 h-4 rounded-full flex items-center justify-center transition-colors",
+                        isMet ? "bg-primary/10" : "bg-muted"
+                      )}>
+                        <Check className={cn(
+                          "w-3 h-3 transition-colors",
+                          isMet ? "text-primary" : "text-muted-foreground"
+                        )} />
+                      </div>
+                      <span className={cn(
+                        "transition-colors",
+                        isMet ? "text-foreground" : "text-muted-foreground"
+                      )}>
+                        {req.text}
+                      </span>
+                    </motion.div>
+                  )
+                })}
+              </div>
             </motion.div>
 
-            {/* Remember Me & Submit */}
-            <motion.div variants={itemVariants} className="space-y-4 pt-2">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  className="h-4 w-4 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary/20 focus:ring-offset-0"
+            {/* Confirm Password Field */}
+            <motion.div className="space-y-2" variants={itemVariants}>
+              <Label htmlFor="confirmPassword" className="text-foreground/80">
+                Confirm Password
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="pl-10 pr-10 h-11"
+                  required
                 />
-                <Label
-                  htmlFor="remember"
-                  className="text-sm text-muted-foreground cursor-pointer"
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Remember me for 30 days
-                </Label>
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
               </div>
+              {confirmPassword.length > 0 && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={cn(
+                    "text-xs flex items-center gap-1",
+                    doPasswordsMatch ? "text-primary" : "text-destructive"
+                  )}
+                >
+                  <Check className="w-3 h-3" />
+                  {doPasswordsMatch ? "Passwords match" : "Passwords do not match"}
+                </motion.p>
+              )}
+            </motion.div>
 
+            {/* Terms & Conditions */}
+            <motion.div variants={itemVariants} className="flex items-start space-x-2 pt-2">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="h-4 w-4 mt-0.5 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary/20 focus:ring-offset-0"
+              />
+              <Label
+                htmlFor="terms"
+                className="text-sm text-muted-foreground cursor-pointer leading-relaxed"
+              >
+                I agree to the{" "}
+                <Link href="/terms" className="text-primary hover:text-primary/80 hover:underline">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link href="/privacy" className="text-primary hover:text-primary/80 hover:underline">
+                  Privacy Policy
+                </Link>
+              </Label>
+            </motion.div>
+
+            {/* Submit Button */}
+            <motion.div variants={itemVariants} className="pt-2">
               <Button
                 type="submit"
                 className="w-full h-11 text-sm font-medium group"
-                disabled={isLoading}
+                disabled={isLoading || !agreedToTerms || !isPasswordValid || !doPasswordsMatch}
               >
                 {isLoading ? (
                   <motion.div
@@ -180,14 +292,14 @@ export default function LoginPage() {
                         ease: "linear",
                       }}
                     />
-                    Signing in...
+                    Creating account...
                   </motion.div>
                 ) : (
                   <motion.div
                     className="flex items-center gap-2"
                     whileHover={{ x: 4 }}
                   >
-                    Sign In
+                    Create Account
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </motion.div>
                 )}
@@ -203,13 +315,13 @@ export default function LoginPage() {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-3 text-muted-foreground">
-                  Or continue with
+                  Or sign up with
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Social Login */}
+          {/* Social Signup */}
           <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
             <Button
               type="button"
@@ -229,17 +341,16 @@ export default function LoginPage() {
             </Button>
           </motion.div>
 
-          {/* Sign Up Link */}
           <motion.p
             variants={itemVariants}
             className="mt-6 text-center text-sm text-muted-foreground"
           >
-            Don&apos;t have an account?{" "}
+            Already have an account?{" "}
             <Link
-              href="/signup"
+              href="/login"
               className="text-primary hover:text-primary/80 font-medium hover:underline transition-colors"
             >
-              Create an account
+              Sign in
             </Link>
           </motion.p>
         </motion.div>
@@ -249,7 +360,7 @@ export default function LoginPage() {
           className="mt-6 text-center text-xs text-muted-foreground/60"
           variants={itemVariants}
         >
-          By signing in, you agree to our{" "}
+          By creating an account, you agree to our{" "}
           <Link href="/terms" className="hover:text-muted-foreground hover:underline">
             Terms of Service
           </Link>{" "}

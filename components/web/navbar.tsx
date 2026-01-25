@@ -127,7 +127,7 @@ export default function Navbar() {
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.1 }}>
-            <FaUserAlt className="text-lg cursor-pointer" />
+            <Link href="/login"><FaUserAlt className="text-lg cursor-pointer" /></Link>
           </motion.div>
 
           <button
@@ -159,7 +159,7 @@ export default function Navbar() {
                 className="flex items-center gap-4 border-b pb-4"
               >
                 <div className="h-10 w-10 rounded-full bg-black flex items-center justify-center text-white">
-                  <FaUserAlt className="text-sm" />
+                  <Link href="/login"><FaUserAlt className="text-sm" /></Link>
                 </div>
                 <span className="text-sm font-semibold">My Account</span>
               </motion.div>
