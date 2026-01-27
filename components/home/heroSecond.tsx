@@ -168,7 +168,7 @@ export default function HeroSecond() {
           </motion.h2>
           
           <motion.button
-            className="text-[10px] font-semibold bg-white outline-0 w-full py-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out"
+            className="text-[14px] font-bold bg-white outline-0 w-full py-4 hover:bg-black hover:text-white transition-all duration-300 ease-in-out"
             variants={textVariants}
             whileHover={{
               scale: 1.05,
