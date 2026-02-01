@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
+import { AuthProvider } from "@/context/auth-context"
+import { Toaster } from "@/components/ui/sonner"
 
 
 export default function AuthLayout({
@@ -13,7 +15,10 @@ export default function AuthLayout({
           <div className="absolute top-10 left-6 z-100 rounded-full shadow-lg hover:shadow-xl transition-all ">
             <Link href="/" className={buttonVariants({variant:"secondary"})}><ArrowLeft />Go Back</Link>
           </div>
+          <AuthProvider>
             {children}
+            <Toaster/>
+          </AuthProvider>
         </div>
     )
 }

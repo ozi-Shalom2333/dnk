@@ -10,4 +10,4 @@ export default function GoBack() {
             <ArrowLeft className="w-6 h-6 text-foreground" />   
         </button>
     )
-}
+} 
