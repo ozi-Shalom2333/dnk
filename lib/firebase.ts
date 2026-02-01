@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 import { getApp, getApps } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBeyZn5bxICrJsAnyF5T3ynTX0aich9uW0",
-  authDomain: "dnk-version1.firebaseapp.com",
-  projectId: "dnk-version1",
-  storageBucket: "dnk-version1.firebasestorage.app",
-  messagingSenderId: "794912048453",
-  appId: "1:794912048453:web:52187ee376e67565c7aa2c",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: "G-73Z9FH5BXN"
 };
 
