@@ -17,9 +17,9 @@ import {
   AuthError,
 } from "firebase/auth"
 import { auth } from "@/lib/firebase"
-import { toast } from "sonner"  // Direct import, no hook needed
+import { toast } from "sonner"
 
-// Animation variants moved outside component to prevent recreation
+
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -54,9 +54,23 @@ export default function LoginPage() {
   
   const router = useRouter()
   
-  // ❌ REMOVED: const { toast } = useToast() - Not needed with Sonner!
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-  // Memoized error handler
+    try {
+      const { signInWithEmailAndPassword } = await import("firebase/auth")
+      await signInWithEmailAndPassword(auth, email, password)
+      toast.success("Login successful")
+      router.push("/dashboard")
+    } catch (error) {
+      toast.error(getErrorMessage(error as AuthError))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+
   const getErrorMessage = useCallback((error: AuthError): string => {
     switch (error.code) {
       case "auth/invalid-credential":
@@ -81,7 +95,7 @@ export default function LoginPage() {
     e.preventDefault()
     
     if (!email.trim() || !password.trim()) {
-      // ✅ Sonner API: Direct function call
+
       toast.error("Please fill in all fields")
       return
     }
@@ -90,7 +104,7 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       
-      // ✅ Success toast
+
       toast.success("Welcome back!", {
         description: "Successfully signed in to your account.",
       })
@@ -99,7 +113,7 @@ export default function LoginPage() {
       router.refresh()
     } catch (error) {
       const authError = error as AuthError
-      // ✅ Error toast
+
       toast.error(getErrorMessage(authError))
     } finally {
       setIsLoading(false)
@@ -120,7 +134,7 @@ export default function LoginPage() {
       router.refresh()
     } catch (error) {
       const authError = error as AuthError
-      // Don't show error toast if user just closed the popup
+
       if (authError.code !== "auth/popup-closed-by-user") {
         toast.error(getErrorMessage(authError))
       }
@@ -153,7 +167,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background blur effects */}
+
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
       
@@ -260,7 +274,7 @@ export default function LoginPage() {
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
-                    {/* ✅ Using Lucide Loader2 instead of custom motion div for consistency */}
+
                     <Loader2 className="w-4 h-4 animate-spin" />
                     Signing in...
                   </span>

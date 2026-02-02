@@ -33,7 +33,6 @@ import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import google from "@/public/google logo (Community).webp"
 
-// Animation variants
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -71,7 +70,7 @@ export default function SignupPage() {
 
   const router = useRouter()
 
-  // Memoized error handler
+
   const getErrorMessage = useCallback((error: AuthError): string => {
     switch (error.code) {
       case "auth/email-already-in-use":
@@ -200,7 +199,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decorative elements */}
+
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
 
@@ -210,13 +209,13 @@ export default function SignupPage() {
         initial="hidden"
         animate="visible"
       >
-        {/* Card Container */}
+
         <motion.div
           className="bg-card border border-border rounded-2xl shadow-xl shadow-primary/5 p-8 backdrop-blur-sm"
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Header */}
+
           <motion.div className="text-center mb-8" variants={itemVariants}>
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 mb-4">
               <User className="w-7 h-7 text-primary" />
@@ -229,9 +228,9 @@ export default function SignupPage() {
             </p>
           </motion.div>
 
-          {/* Signup Form */}
+
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Field */}
+
             <motion.div className="space-y-2" variants={itemVariants}>
               <Label htmlFor="name" className="text-foreground/80">
                 Full Name
@@ -251,7 +250,7 @@ export default function SignupPage() {
               </div>
             </motion.div>
 
-            {/* Email Field */}
+
             <motion.div className="space-y-2" variants={itemVariants}>
               <Label htmlFor="email" className="text-foreground/80">
                 Email Address
@@ -271,7 +270,7 @@ export default function SignupPage() {
               </div>
             </motion.div>
 
-            {/* Password Field */}
+
             <motion.div className="space-y-2" variants={itemVariants}>
               <Label htmlFor="password" className="text-foreground/80">
                 Password
@@ -302,7 +301,7 @@ export default function SignupPage() {
                 </button>
               </div>
 
-              {/* Password Requirements */}
+
               <div className="space-y-1.5 pt-2">
                 {passwordRequirements.map((req, index) => {
                   const isMet = req.regex.test(password)
@@ -343,7 +342,7 @@ export default function SignupPage() {
               </div>
             </motion.div>
 
-            {/* Confirm Password Field */}
+
             <motion.div className="space-y-2" variants={itemVariants}>
               <Label htmlFor="confirmPassword" className="text-foreground/80">
                 Confirm Password
@@ -390,7 +389,7 @@ export default function SignupPage() {
               )}
             </motion.div>
 
-            {/* Terms & Conditions */}
+
             <motion.div
               variants={itemVariants}
               className="flex items-start space-x-2 pt-2"
@@ -424,7 +423,7 @@ export default function SignupPage() {
               </Label>
             </motion.div>
 
-            {/* Submit Button */}
+
             <motion.div variants={itemVariants} className="pt-2">
               <Button
                 type="submit"
@@ -451,7 +450,7 @@ export default function SignupPage() {
             </motion.div>
           </form>
 
-          {/* Divider */}
+
           <motion.div variants={itemVariants} className="my-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -465,7 +464,7 @@ export default function SignupPage() {
             </div>
           </motion.div>
 
-          {/* Social Signup */}
+
           <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
             <Button
               type="button"
@@ -509,7 +508,7 @@ export default function SignupPage() {
           </motion.p>
         </motion.div>
 
-        {/* Footer */}
+
         <motion.p
           className="mt-6 text-center text-xs text-muted-foreground/60"
           variants={itemVariants}
