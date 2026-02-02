@@ -12,22 +12,22 @@ export default function Value() {
         {
             image: globe,
             title: "Worldwide Shipping",
-            description: "It elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+            description: "Your products reach customers anywhere, with reliable and efficient delivery services.",
         },
         {
             image: quality,
             title: "Best Quality",
-            description: "It elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+            description: "Premium materials and expert craftsmanship ensure every product meets the highest standards.",
         },
         {
             image: tag,
             title: "Best Offers",
-            description: "It elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+            description: "Unlock exclusive deals and discounts that maximize your value.",
         },
         {
             image: lock,
             title: "Secure Payments",
-            description: "It elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+            description: "Advanced security measures protect your transactions and personal information.",
         },
     ];
 

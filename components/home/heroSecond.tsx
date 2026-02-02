@@ -94,7 +94,7 @@ export default function HeroSecond() {
             className="text-white text-[14px] lg:text-[16px]"
             variants={textVariants}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+            Discover our latest collection of premium t-shirts, crafted with the finest materials and designed for ultimate comfort and style.
           </motion.p>
           
           <motion.h3
@@ -157,7 +157,7 @@ export default function HeroSecond() {
             className="text-white text-[14px]"
             variants={textVariants}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+            Discover our latest collection of premium t-shirts, crafted with the finest materials and designed for ultimate comfort and style.
           </motion.p>
           
           <motion.h2

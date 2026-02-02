@@ -1,16 +1,63 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import google from "@/public/google logo (Community).webp"
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Github, Chrome, User, Check } from "lucide-react"
+import Image from "next/image"
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  ArrowRight,
+  Github,
+  User,
+  Check,
+  Loader2,
+} from "lucide-react"
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  AuthError,
+} from "firebase/auth"
+import { auth } from "@/lib/firebase"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
+import google from "@/public/google logo (Community).webp"
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+      staggerChildren: 0.08,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
+  },
+}
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -22,41 +69,121 @@ export default function SignupPage() {
   const [name, setName] = useState("")
   const [agreedToTerms, setAgreedToTerms] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const router = useRouter()
+
+  // Memoized error handler
+  const getErrorMessage = useCallback((error: AuthError): string => {
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        return "An account with this email already exists"
+      case "auth/weak-password":
+        return "Password should be at least 6 characters"
+      case "auth/invalid-email":
+        return "Please enter a valid email address"
+      case "auth/popup-closed-by-user":
+        return "Sign up cancelled"
+      case "auth/account-exists-with-different-credential":
+        return "An account already exists with this email using a different sign-in method"
+      default:
+        return "Failed to create account. Please try again."
+    }
+  }, [])
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault()
+
+      if (!agreedToTerms) {
+        toast.error("Please agree to the Terms of Service and Privacy Policy")
+        return
+      }
+
+      if (!isPasswordValid) {
+        toast.error("Please meet all password requirements")
+        return
+      }
+
+      if (!doPasswordsMatch) {
+        toast.error("Passwords do not match")
+        return
+      }
+
+      setIsLoading(true)
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+        await updateProfile(userCredential.user, { displayName: name })
+
+        toast.success("Account created successfully!", {
+          description: "Welcome to DNK!",
+        })
+
+        router.push("/dashboard")
+        router.refresh()
+      } catch (error) {
+        const authError = error as AuthError
+        toast.error(getErrorMessage(authError))
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [
+      email,
+      password,
+      name,
+      agreedToTerms,
+      router,
+      getErrorMessage,
+    ]
+  )
+
+  const signUpWithGoogle = useCallback(async () => {
     setIsLoading(true)
-    
-    // Simulate signup process
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsLoading(false)
-    console.log("Signup attempt with:", { name, email, password })
-  }
+    try {
+      const provider = new GoogleAuthProvider()
+      await signInWithPopup(auth, provider)
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-        staggerChildren: 0.08,
-      },
-    },
-  }
+      toast.success("Account created successfully!", {
+        description: "Welcome to DNK!",
+      })
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
-    },
-  }
+      router.push("/dashboard")
+      router.refresh()
+    } catch (error) {
+      const authError = error as AuthError
+      if (authError.code !== "auth/popup-closed-by-user") {
+        toast.error(getErrorMessage(authError))
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [router, getErrorMessage])
+
+  const signUpWithGithub = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const provider = new GithubAuthProvider()
+      await signInWithPopup(auth, provider)
+
+      toast.success("Account created successfully!", {
+        description: "Welcome to DNK!",
+      })
+
+      router.push("/dashboard")
+      router.refresh()
+    } catch (error) {
+      const authError = error as AuthError
+      if (authError.code !== "auth/popup-closed-by-user") {
+        toast.error(getErrorMessage(authError))
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [router, getErrorMessage])
 
   const passwordRequirements = [
     { regex: /.{8,}/, text: "At least 8 characters" },
@@ -65,15 +192,18 @@ export default function SignupPage() {
     { regex: /\d/, text: "One number" },
   ]
 
-  const isPasswordValid = passwordRequirements.every(req => req.regex.test(password))
-  const doPasswordsMatch = password === confirmPassword && password.length > 0
+  const isPasswordValid = passwordRequirements.every((req) =>
+    req.regex.test(password)
+  )
+  const doPasswordsMatch =
+    password === confirmPassword && password.length > 0
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-      
+
       <motion.div
         className="w-full max-w-md relative z-10"
         variants={containerVariants}
@@ -81,7 +211,7 @@ export default function SignupPage() {
         animate="visible"
       >
         {/* Card Container */}
-        <motion.div 
+        <motion.div
           className="bg-card border border-border rounded-2xl shadow-xl shadow-primary/5 p-8 backdrop-blur-sm"
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
@@ -115,6 +245,7 @@ export default function SignupPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-10 h-11"
+                  disabled={isLoading}
                   required
                 />
               </div>
@@ -134,6 +265,7 @@ export default function SignupPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 h-11"
+                  disabled={isLoading}
                   required
                 />
               </div>
@@ -153,12 +285,14 @@ export default function SignupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10 h-11"
+                  disabled={isLoading}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  disabled={isLoading}
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -167,7 +301,7 @@ export default function SignupPage() {
                   )}
                 </button>
               </div>
-              
+
               {/* Password Requirements */}
               <div className="space-y-1.5 pt-2">
                 {passwordRequirements.map((req, index) => {
@@ -177,24 +311,30 @@ export default function SignupPage() {
                       key={index}
                       className="flex items-center gap-2 text-xs"
                       initial={{ opacity: 0, x: -10 }}
-                      animate={{ 
-                        opacity: password.length > 0 ? 1 : 0.5, 
-                        x: password.length > 0 ? 0 : -10 
+                      animate={{
+                        opacity: password.length > 0 ? 1 : 0.5,
+                        x: password.length > 0 ? 0 : -10,
                       }}
                     >
-                      <div className={cn(
-                        "w-4 h-4 rounded-full flex items-center justify-center transition-colors",
-                        isMet ? "bg-primary/10" : "bg-muted"
-                      )}>
-                        <Check className={cn(
-                          "w-3 h-3 transition-colors",
-                          isMet ? "text-primary" : "text-muted-foreground"
-                        )} />
+                      <div
+                        className={cn(
+                          "w-4 h-4 rounded-full flex items-center justify-center transition-colors",
+                          isMet ? "bg-primary/10" : "bg-muted"
+                        )}
+                      >
+                        <Check
+                          className={cn(
+                            "w-3 h-3 transition-colors",
+                            isMet ? "text-primary" : "text-muted-foreground"
+                          )}
+                        />
                       </div>
-                      <span className={cn(
-                        "transition-colors",
-                        isMet ? "text-foreground" : "text-muted-foreground"
-                      )}>
+                      <span
+                        className={cn(
+                          "transition-colors",
+                          isMet ? "text-foreground" : "text-muted-foreground"
+                        )}
+                      >
                         {req.text}
                       </span>
                     </motion.div>
@@ -217,12 +357,14 @@ export default function SignupPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pl-10 pr-10 h-11"
+                  disabled={isLoading}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  disabled={isLoading}
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -241,18 +383,24 @@ export default function SignupPage() {
                   )}
                 >
                   <Check className="w-3 h-3" />
-                  {doPasswordsMatch ? "Passwords match" : "Passwords do not match"}
+                  {doPasswordsMatch
+                    ? "Passwords match"
+                    : "Passwords do not match"}
                 </motion.p>
               )}
             </motion.div>
 
             {/* Terms & Conditions */}
-            <motion.div variants={itemVariants} className="flex items-start space-x-2 pt-2">
+            <motion.div
+              variants={itemVariants}
+              className="flex items-start space-x-2 pt-2"
+            >
               <input
                 type="checkbox"
                 id="terms"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
+                disabled={isLoading}
                 className="h-4 w-4 mt-0.5 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary/20 focus:ring-offset-0"
               />
               <Label
@@ -260,11 +408,17 @@ export default function SignupPage() {
                 className="text-sm text-muted-foreground cursor-pointer leading-relaxed"
               >
                 I agree to the{" "}
-                <Link href="/terms" className="text-primary hover:text-primary/80 hover:underline">
+                <Link
+                  href="/terms"
+                  className="text-primary hover:text-primary/80 hover:underline"
+                >
                   Terms of Service
                 </Link>{" "}
                 and{" "}
-                <Link href="/privacy" className="text-primary hover:text-primary/80 hover:underline">
+                <Link
+                  href="/privacy"
+                  className="text-primary hover:text-primary/80 hover:underline"
+                >
                   Privacy Policy
                 </Link>
               </Label>
@@ -275,33 +429,23 @@ export default function SignupPage() {
               <Button
                 type="submit"
                 className="w-full h-11 text-sm font-medium group"
-                disabled={isLoading || !agreedToTerms || !isPasswordValid || !doPasswordsMatch}
+                disabled={
+                  isLoading ||
+                  !agreedToTerms ||
+                  !isPasswordValid ||
+                  !doPasswordsMatch
+                }
               >
                 {isLoading ? (
-                  <motion.div
-                    className="flex items-center gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
-                    <motion.div
-                      className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     Creating account...
-                  </motion.div>
+                  </span>
                 ) : (
-                  <motion.div
-                    className="flex items-center gap-2"
-                    whileHover={{ x: 4 }}
-                  >
+                  <span className="flex items-center gap-2 group-hover:gap-3 transition-all">
                     Create Account
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </motion.div>
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
                 )}
               </Button>
             </motion.div>
@@ -327,6 +471,8 @@ export default function SignupPage() {
               type="button"
               variant="outline"
               className="h-11 font-normal"
+              onClick={signUpWithGithub}
+              disabled={isLoading}
             >
               <Github className="w-4 h-4 mr-2" />
               GitHub
@@ -335,8 +481,16 @@ export default function SignupPage() {
               type="button"
               variant="outline"
               className="h-11 font-normal"
+              onClick={signUpWithGoogle}
+              disabled={isLoading}
             >
-              <Image src={google} alt="Google" width={20} height={20} />
+              <Image
+                src={google}
+                alt="Google"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
               Google
             </Button>
           </motion.div>
@@ -361,11 +515,17 @@ export default function SignupPage() {
           variants={itemVariants}
         >
           By creating an account, you agree to our{" "}
-          <Link href="/terms" className="hover:text-muted-foreground hover:underline">
+          <Link
+            href="/terms"
+            className="hover:text-muted-foreground hover:underline"
+          >
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="/privacy" className="hover:text-muted-foreground hover:underline">
+          <Link
+            href="/privacy"
+            className="hover:text-muted-foreground hover:underline"
+          >
             Privacy Policy
           </Link>
         </motion.p>
