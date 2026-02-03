@@ -1,13 +1,16 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BsHandbagFill } from "react-icons/bs";
-import { FaUserAlt, FaBars, FaTimes } from "react-icons/fa";
+import { FaUserAlt, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
 import logo from "@/public/logo1-free-img.webp";
 
+/* ---------------- ANIMATIONS (UNCHANGED) ---------------- */
 
 const navVariants: Variants = {
   hidden: { y: -20, opacity: 0 },
@@ -53,8 +56,13 @@ const mobileMenuVariants: Variants = {
   },
 };
 
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { user, loading, logout } = useAuth();
+  const router = useRouter();
 
   const navItems = [
     "EVERYTHING",
@@ -65,6 +73,27 @@ export default function Navbar() {
     "CONTACT US",
   ];
 
+  const handleUserClick = () => {
+    if (loading) return;
+
+    if (user) {
+      setDropdownOpen((prev) => !prev);
+    } else {
+      router.push("/login");
+    }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setDropdownOpen(false);
+    router.replace("/");
+  };
+
+  const goToDashboard = () => {
+    setDropdownOpen(false);
+    router.push("/dashboard");
+  };
+
   return (
     <motion.header
       variants={navVariants}
@@ -72,7 +101,6 @@ export default function Navbar() {
       animate="visible"
       className="absolute top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-sm text-white"
     >
-
       <div className="flex items-center justify-between px-6 py-5 max-w-7xl mx-auto">
         <motion.div whileHover={{ scale: 1.03 }}>
           <Link href="/">
@@ -92,13 +120,10 @@ export default function Navbar() {
           {navItems.map((item, index) => (
             <motion.div
               key={item}
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: index * 0.08,
-                duration: 0.3,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              variants={linkVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: index * 0.08 }}
               whileHover={{ y: -2 }}
               className="relative"
             >
@@ -118,29 +143,64 @@ export default function Navbar() {
           ))}
         </nav>
 
-    
-        <div className="flex items-center gap-5 text-sm font-bold">
+        <div className="flex items-center gap-5 text-sm font-bold relative">
           <span className="hidden sm:block">$0.00</span>
 
           <motion.div whileHover={{ scale: 1.1 }}>
             <BsHandbagFill className="text-lg cursor-pointer" />
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.1 }}>
-            <Link href="/login"><FaUserAlt className="text-lg cursor-pointer" /></Link>
+          {/* USER */}
+          <motion.div whileHover={{ scale: 1.1 }} className="relative">
+            {user ? (
+              <div
+                onClick={handleUserClick}
+                className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center text-sm font-bold cursor-pointer"
+              >
+                {user.email?.charAt(0).toUpperCase()}
+              </div>
+            ) : (
+              <FaUserAlt
+                onClick={handleUserClick}
+                className="text-lg cursor-pointer"
+              />
+            )}
+
+            <AnimatePresence>
+              {dropdownOpen && user && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-3 w-48 bg-white text-black rounded-xl shadow-xl overflow-hidden z-50"
+                >
+                  <button
+                    onClick={goToDashboard}
+                    className="w-full text-left px-4 py-3 hover:bg-gray-100 text-sm"
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-3 hover:bg-gray-100 text-sm flex items-center gap-2 text-red-600"
+                  >
+                    <FaSignOutAlt /> Logout
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           <button
             onClick={() => setOpen(!open)}
             className="lg:hidden text-xl"
-            aria-label="Toggle menu"
           >
             {open ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </div>
 
-      
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -151,38 +211,29 @@ export default function Navbar() {
             className="lg:hidden fixed inset-x-0 top-[80px] z-40 bg-white text-black rounded-t-2xl shadow-xl"
           >
             <div className="px-6 pt-6 pb-10 flex flex-col gap-6">
-
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-center gap-4 border-b pb-4"
+              <div
+                onClick={() => {
+                  setOpen(false);
+                  handleUserClick();
+                }}
+                className="flex items-center gap-4 border-b pb-4 cursor-pointer"
               >
                 <div className="h-10 w-10 rounded-full bg-black flex items-center justify-center text-white">
-                  <Link href="/login"><FaUserAlt className="text-sm" /></Link>
+                  {user ? user.email?.charAt(0).toUpperCase() : <FaUserAlt />}
                 </div>
-                <span className="text-sm font-semibold">My Account</span>
-              </motion.div>
-
+                <span className="text-sm font-semibold">
+                  {user ? "My Account" : "Login"}
+                </span>
+              </div>
 
               <motion.nav
                 initial="hidden"
                 animate="visible"
-                variants={{
-                  visible: {
-                    transition: {
-                      staggerChildren: 0.07,
-                    },
-                  },
-                }}
+                variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
                 className="flex flex-col divide-y"
               >
                 {navItems.map((item) => (
-                  <motion.div
-                    key={item}
-                    variants={linkVariants}
-                    className="py-4"
-                  >
+                  <motion.div key={item} variants={linkVariants} className="py-4">
                     <Link
                       href={
                         item === "ABOUT"
@@ -192,7 +243,7 @@ export default function Navbar() {
                           : "/"
                       }
                       onClick={() => setOpen(false)}
-                      className="flex items-center justify-between text-base font-semibold transition-colors hover:text-gray-500"
+                      className="flex items-center justify-between text-base font-semibold hover:text-gray-500"
                     >
                       {item}
                       <span className="text-gray-400 text-sm">→</span>
@@ -201,16 +252,18 @@ export default function Navbar() {
                 ))}
               </motion.nav>
 
-            
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="pt-6 border-t text-sm text-gray-500 text-center"
-              >
-                © {new Date().getFullYear()} DNK
-              </motion.div>
+              {user && (
+                <button
+                  onClick={handleLogout}
+                  className="mt-4 text-red-600 text-sm flex items-center gap-2"
+                >
+                  <FaSignOutAlt /> Logout
+                </button>
+              )}
 
+              <div className="pt-6 border-t text-sm text-gray-500 text-center">
+                © {new Date().getFullYear()} DNK
+              </div>
             </div>
           </motion.div>
         )}
