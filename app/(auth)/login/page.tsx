@@ -301,8 +301,8 @@ export default function LoginPage() {
             </div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
-            <Button
+          <motion.div variants={itemVariants} className="grid grid-cols-1 gap-3">
+            {/* <Button
               type="button"
               variant="outline"
               className="h-11 font-normal"
@@ -311,7 +311,7 @@ export default function LoginPage() {
             >
               <Github className="w-4 h-4 mr-2" />
               GitHub
-            </Button>
+            </Button> */}
             <Button
               type="button"
               variant="outline"
