@@ -2,6 +2,7 @@ import Image from "next/image";
 import banner from "@/public/banner-04.webp"
 import WhoWeAre from "@/components/about/whoWeAre";
 import OurTeam from "@/components/about/ourTeam";
+import Value from "@/components/home/value";
 
 export default function AboutPage() {
   return (
@@ -25,7 +26,8 @@ export default function AboutPage() {
       </section>
       
       <WhoWeAre />
-      {/* <OurTeam/> */}
+      <OurTeam/>
+      <Value/>
     </>
   );
 }

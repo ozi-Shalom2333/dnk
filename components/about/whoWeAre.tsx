@@ -23,7 +23,7 @@ export default function WhoWeAre() {
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
               Who We Are
             </h1>
-            <div className="absolute -bottom-2 left-0 w-20 h-1 bg-primary rounded-full" />
+            <div className="absolute -bottom-2 left-0 w-20 h-1 bg-[#0084D6] rounded-full" />
           </div>
 
           <p className="text-gray-600 text-md leading-relaxed mb-6">
