@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Image, { StaticImageData } from "next/image";
+import { motion, Variants } from "framer-motion";
 
 import menwear from "@/public/men-fashion-free-img.webp";
 import womenwear from "@/public/women-fashion-free-img.webp";
@@ -20,6 +23,25 @@ interface CardProps {
   overlayOpacity?: number;
   showOverlayOnHover?: boolean;
 }
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const cardItemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut" },
+  },
+};
 
 const Card: React.FC<CardProps> = ({
   cards,
@@ -62,33 +84,50 @@ const Card: React.FC<CardProps> = ({
   }
 
   return (
-    <div className="container grid grid-cols-1 md:grid-cols-3 mx-auto p-4 gap-6 md:gap-2.5">
+    <motion.div 
+      className="container grid grid-cols-1 md:grid-cols-3 mx-auto p-4 gap-6 md:gap-2.5"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+    >
        {
         cardsToRender.map((e)=>(
-          <div key={e.id} className="relative min-h-[40vh] md:min-h-[50vh] lg:min-h-[70vh] p-4 lg:p-8 flex flex-col justify-end gap-4" >
-             <Image
-                src={e.image}
-                alt={e.altText ?? e.title}
-                fill
-                placeholder="blur"
-                sizes="(max-width: 768px) 90vw, 35vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                priority={e.id === 1}
-              />
-               <div
-                className='absolute inset-0 bg-black/35 '/>
-             <h1 className="text-white text-[22px] md:text-[18px] lg:text-[22px] font-bold z-10">{e.title}</h1>
-             <p className="text-white text-base md:text-[14px] lg:text-base z-10">{e.description}</p>
-             <button className="bg-white  z-10 p-4 md:w-1/2 md:p-2 md:text-sm font-semibold hover:bg-black hover:text-white transition ease-in-out duration-300 border-0 outline-0">
+          <motion.div 
+            key={e.id} 
+            variants={cardItemVariants}
+            className="group relative min-h-[40vh] md:min-h-[50vh] lg:min-h-[60vh] p-6 lg:p-10 flex flex-col justify-end gap-4 overflow-hidden shadow-lg" 
+          >
+             <motion.div 
+               className="absolute inset-0"
+               whileHover={{ scale: 1.08 }}
+               transition={{ duration: 0.8, ease: "easeOut" }}
+             >
+               <Image
+                  src={e.image}
+                  alt={e.altText ?? e.title}
+                  fill
+                  placeholder="blur"
+                  sizes="(max-width: 768px) 90vw, 35vw"
+                  className="object-cover"
+                  priority={e.id === 1}
+                />
+             </motion.div>
+             <div className='absolute inset-0 bg-black/40 z-1'/>
+             
+             <h1 className="text-white text-[22px] md:text-[18px] lg:text-[24px] font-bold z-10 leading-tight">{e.title}</h1>
+             <p className="text-white/90 text-base md:text-[14px] lg:text-base z-10">{e.description}</p>
+             
+             <motion.button 
+               whileTap={{ scale: 0.95 }}
+               className="bg-white z-10 p-4 w-full md:p-3 md:text-sm font-bold hover:bg-black hover:text-white transition-all duration-300 border-0 shadow-md"
+             >
               {e.buttonText}
-             </button>
-             <div className="absolute inset-0 bg-black/25">
-
-             </div>
-          </div>
+             </motion.button>
+          </motion.div>
         ))
        }
-    </div>
+    </motion.div>
   );
 };
 

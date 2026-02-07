@@ -1,36 +1,49 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import ProductList from "./productList";
+
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const dividerVariants: Variants = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: { duration: 0.8, delay: 0.2, ease: "easeInOut" },
+  },
+};
 
 export default function Products() {
   return (
-    <motion.section
-      className="p-4 bg-[#F5F7F9] flex flex-col gap-6"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <section className="p-4 bg-[#F5F7F9] flex flex-col gap-6 py-16 md:py-24">
       <motion.h1
         className="font-bold text-[25px] lg:text-[42px] text-center"
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        variants={headerVariants}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         Featured Products
       </motion.h1>
       
       <motion.div
-        className="w-1/6 border-1 border-[#0084D6] mx-auto"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
+        className="w-24 h-1 bg-[#0084D6] mx-auto rounded-full"
+        variants={dividerVariants}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
       />
       
-      <ProductList />
-    </motion.section>
+      <div className="mt-8">
+        <ProductList />
+      </div>
+    </section>
   );
 }

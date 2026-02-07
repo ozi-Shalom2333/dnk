@@ -8,7 +8,6 @@ export default function WhoWeAre() {
   return (
     <section className="bg-white py-20 px-6 sm:px-12 lg:px-20 overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-        
         <motion.div 
           className="w-full lg:w-1/2 flex flex-col items-start text-left"
           initial={{ opacity: 0, x: -30 }} 
