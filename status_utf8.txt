@@ -1,0 +1,16 @@
+﻿M  app/(auth)/login/page.tsx
+M  app/(auth)/signup/page.tsx
+M  app/(dashboard)/dashboard/page.tsx
+M  app/(public)/about/page.tsx
+M  app/(public)/contact/page.tsx
+A  components/about/followUs.tsx
+M  components/about/whoWeAre.tsx
+M  components/home/card.tsx
+M  components/home/hero.tsx
+M  components/home/heroSecond.tsx
+M  components/home/products.tsx
+M  components/home/value.tsx
+A  public/banner-05.webp
+?? diff.txt
+?? stat.txt
+?? status.txt

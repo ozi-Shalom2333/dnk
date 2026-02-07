@@ -1,0 +1,14 @@
+﻿ app/(auth)/login/page.tsx          |  21 +++----
+ app/(auth)/signup/page.tsx         |  21 +++----
+ app/(dashboard)/dashboard/page.tsx |   9 +--
+ app/(public)/about/page.tsx        |  48 +++++++++++----
+ app/(public)/contact/page.tsx      | 123 ++++++++++++++++++++++++++++++++++++-
+ components/about/followUs.tsx      | 117 +++++++++++++++++++++++++++++++++++
+ components/about/whoWeAre.tsx      |   1 -
+ components/home/card.tsx           |  83 ++++++++++++++++++-------
+ components/home/hero.tsx           | 103 +++++++++++++++++++------------
+ components/home/heroSecond.tsx     |   6 +-
+ components/home/products.tsx       |  47 +++++++++-----
+ components/home/value.tsx          |  85 +++++++++++--------------
+ public/banner-05.webp              | Bin 0 -> 343164 bytes
+ 13 files changed, 494 insertions(+), 170 deletions(-)
