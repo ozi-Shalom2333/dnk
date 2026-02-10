@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import logo from "@/public/logo1-free-img.webp";
 
-/* ---------------- ANIMATIONS (UNCHANGED) ---------------- */
 
 const navVariants: Variants = {
   hidden: { y: -20, opacity: 0 },
@@ -115,7 +114,6 @@ export default function Navbar() {
           </Link>
         </motion.div>
 
-        {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8 text-sm font-bold">
           {navItems.map((item, index) => (
             <motion.div
@@ -133,6 +131,14 @@ export default function Navbar() {
                     ? "/about"
                     : item === "CONTACT US"
                     ? "/contact"
+                    : item === "EVERYTHING"
+                    ? "/everything"
+                    : item === "WOMEN"
+                    ? "/women"
+                    : item === "MEN"
+                    ? "/men"
+                    : item === "ACCESSORIES"
+                    ? "/accessories"
                     : "/"
                 }
                 className="after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
@@ -150,7 +156,6 @@ export default function Navbar() {
             <BsHandbagFill className="text-lg cursor-pointer" />
           </motion.div>
 
-          {/* USER */}
           <motion.div whileHover={{ scale: 1.1 }} className="relative">
             {user ? (
               <div
@@ -162,7 +167,7 @@ export default function Navbar() {
             ) : (
               <FaUserAlt
                 onClick={handleUserClick}
-                className="text-lg cursor-pointer"
+                className="hidden lg:block text-lg cursor-pointer"
               />
             )}
 
@@ -200,7 +205,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -240,6 +244,14 @@ export default function Navbar() {
                           ? "/about"
                           : item === "CONTACT US"
                           ? "/contact"
+                          : item === "EVERYTHING"
+                          ? "/everything"
+                          : item === "WOMEN"
+                          ? "/women"
+                          : item === "MEN"
+                          ? "/men"
+                          : item === "ACCESSORIES"
+                          ? "/accessories"
                           : "/"
                       }
                       onClick={() => setOpen(false)}
