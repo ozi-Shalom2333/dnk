@@ -1,48 +1,18 @@
-"use client";
-
-import { motion, Variants } from "framer-motion";
-import ProductList from "./productList";
-
-const headerVariants: Variants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const dividerVariants: Variants = {
-  hidden: { scaleX: 0 },
-  visible: {
-    scaleX: 1,
-    transition: { duration: 0.8, delay: 0.2, ease: "easeInOut" },
-  },
-};
+import Link from "next/link";
+import { products } from "@/lib/shop/catalog";
+import { ProductGrid } from "@/components/shop/product-grid";
 
 export default function Products() {
   return (
-    <section className="p-4 bg-[#F5F7F9] flex flex-col gap-6 py-16 md:py-24">
-      <motion.h1
-        className="font-bold text-[25px] lg:text-[42px] text-center"
-        variants={headerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        Featured Products
-      </motion.h1>
-      
-      <motion.div
-        className="w-24 h-1 bg-[#0084D6] mx-auto rounded-full"
-        variants={dividerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      />
-      
-      <div className="mt-8">
-        <ProductList />
+    <section className="featured-section section-space" id="featured" aria-labelledby="featured-heading">
+      <div className="site-width">
+        <div className="section-heading section-heading--center">
+          <p className="eyebrow">The pieces you will reach for</p>
+          <h2 id="featured-heading">Featured Products</h2>
+          <span className="heading-divider" aria-hidden="true" />
+        </div>
+        <ProductGrid items={products} />
+        <div className="section-action"><Link href="/everything" className="secondary-button">Explore all products</Link></div>
       </div>
     </section>
   );

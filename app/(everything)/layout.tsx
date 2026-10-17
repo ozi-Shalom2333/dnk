@@ -1,16 +1,15 @@
-import Navbar from "@/components/everthing/navbar";
+import Navbar from "@/components/web/navbar";
 import Footer from "@/components/web/footer";
-
-export default function EverythingLayout({
-    children,
+export default function ShopLayout({
+  children
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <div className="bg-[#F5F7F9] flex flex-col gap-10">
-        <Navbar/>
-            {children}
-        <Footer/>    
-        </div>
-    );
-}   
+  return <>
+    <Navbar />
+    <main id="main-content" tabIndex={-1}>
+      {children}
+    </main>
+    <Footer />
+  </>;
+}

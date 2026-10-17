@@ -1,149 +1,101 @@
-# DNK — Modern Web Experience
+# DNK
 
-> A sleek, performant web application built with **Next.js 16**, **React 19**, and modern web technologies.
+DNK is a Next.js fashion ecommerce portfolio project. The original ten-product catalog, prices and DNK blue identity are preserved. The storefront now has a coherent shopping flow, with real Firebase account actions when configured.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.1.3-black?style=flat&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=flat&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+The October 17 visual update restores the original DNK logo, full-width photographic hero and campaign banner, bold sans-serif headings and black/white/blue palette. Screenshot references informed category browsing, product spacing and responsive layouts. Product details, the basket, checkout and account screens share this design system. See [Design refinement](docs/REDESIGN.md).
 
----
+## Where checkout stops
 
-## 🚀 Live Demo
+Browse → choose product and size → add to basket → review delivery details → **UNPAID PREVIEW**.
 
-🔗 **[dnk-drab.vercel.app](https://dnk-drab.vercel.app)**
+This does not create an order, reserve stock, charge a card, send a receipt, or arrange delivery. The basket stays intact. Prices, stock and sizes are demo data. Shipping and tax are not calculated. Delivery details are held only in page memory; use sample details.
 
----
+## Run locally
 
-## ✨ Features
+Node.js 20.9 or later is required. Use a currently supported Node LTS release if possible.
 
-- **Modern Architecture** — Built with Next.js 16 App Router for server-side rendering and static site generation.
-- **Authentication** — Secure user authentication flows (Login, Register, Forgot Password).
-- **Dashboard** — Protected dashboard routes for user management and data visualization.
-- **Responsive Design** — Fully responsive layouts optimized for mobile, tablet, and desktop using Tailwind CSS v4.
-- **Interactive UI** — Smooth animations with Framer Motion and touch-friendly carousels via Embla.
-- **Theme Support** — Built-in support for light and dark modes (via `next-themes`).
-- **Type Safety** — Comprehensive TypeScript support for reliable code.
-
----
-
-## 🛠 Tech Stack
-
-### Core Framework
-- **Next.js 16.1.3** — Research-grade React framework including the new App Router.
-- **React 19.2.3** — The latest version of the React library for building user interfaces.
-- **TypeScript 5.x** — Typed JavaScript for scalable application development.
-
-### Styling & UI Components
-- **Tailwind CSS 4.x** — A utility-first CSS framework for rapid UI development.
-- **Radix UI** — Unstyled, accessible components for building high-quality design systems.
-- **Lucide React & React Icons** — Beautiful, consistent icons.
-- **Sonner** — An opinionated toast component for React.
-
-### Animation & Interaction
-- **Framer Motion** — Production-ready motion library for React.
-- **Embla Carousel** — A lightweight carousel library with fluid motion and great swipe precision.
-
-### Backend & Services
-- **Firebase** — Backend-as-a-Service for authentication and data storage.
-
----
-
-## 🚀 Getting Started
-
-Follow these steps to set up the project locally.
-
-### Prerequisites
-
-Ensure you have the following installed:
-- **Node.js** (v18 or higher recommended)
-- **npm** or **yarn**
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/dnk.git
-   cd dnk
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Environment Setup:**
-   Create a `.env.local` file in the root directory and add your Firebase configuration keys:
-
-   ```env
-   NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-   NEXT_PUBLIC_FIREBASE_MESSUREMENT_ID=your_measurement_id
-   ```
-
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
----
-
-## 📜 Scripts
-
-| Script | Description |
-| :--- | :--- |
-| `npm run dev` | Starts the development server with hot-reloading. |
-| `npm run build` | Builds the application for production usage. |
-| `npm run start` | Starts the production server (after building). |
-| `npm run lint` | Runs ESLint to catch code issues. |
-
----
-
-## 📁 Project Structure
-
-```txt
-dnk/
-├── app/                    # Next.js App Router
-│   ├── (auth)/             # Authentication routes (Login, Register)
-│   ├── (dashboard)/        # Dashboard & protected routes
-│   ├── (public)/           # Public facing routes
-│   ├── globals.css         # Global styles
-│   └── layout.tsx          # Root layout
-├── components/             # Reusable UI components
-│   ├── auth/               # Auth-specific components
-│   ├── home/               # Landing page components
-│   ├── ui/                 # Accessible UI primitives (Radix/Shadcn)
-│   └── web/                # Shared web components (Navbar, Footer)
-├── context/                # React Context providers (AuthContext)
-├── lib/                    # Utilities & Library configurations
-│   ├── firebase.ts         # Firebase initialization
-│   └── utils.ts            # Helper functions
-├── public/                 # Static assets (images, fonts)
-└── ...config files (tailwind, next, tsconfig)
+```bash
+npm ci
+npm run dev
 ```
 
----
+Visit http://localhost:3000. Browsing, the basket, wishlist and guest checkout review work without Firebase configuration. Account screens explain missing configuration instead of crashing the site.
 
-## 🤝 Contributing
+This configured archive includes `.env.local` with the supplied `dnk-version1` Firebase web app identifiers. Keep it beside `package.json`. Enable Email/Password in Firebase Console and authorize your development/production domains, including `localhost` for local development. Stop the server with Ctrl+C and run `npm run dev` again after changing environment variables. See [Firebase setup](docs/FIREBASE.md).
 
-Contributions are welcome! Please follow these steps:
-1. Fork the project.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+For a different Firebase project, copy `.env.example` to `.env.local` and fill in that project's web app configuration. `.env.local` remains ignored by Git. Firebase web app identifiers are public client configuration; never copy Admin SDK private keys into public variables. Optional Google and GitHub buttons appear only when their configuration flags are enabled. Both are disabled in the supplied configuration until their providers are confirmed configured.
 
----
+## Safely apply this update to your existing repository
 
-## 📄 License
+Keep your original repository and `.git` directory. Work on a branch. Copy the updated source files into that working copy, preserving your `.env.local`. Do not delete the original repository or replace its Git metadata with an extracted ZIP.
 
-Distributed under the MIT License. See `LICENSE` for more information.
+The following inactive components were removed; remove them from your working copy if merging files manually:
+
+- `components/about/` (fictional team/metrics and placeholder social widgets).
+- `components/home/card.tsx` and `components/everthing/card.tsx` (duplicate inert promo cards).
+- `components/home/caroselSlider.tsx` (placeholder partner logos).
+
+Old `diff.txt`, `stat*.txt`, `status*.txt` and `names*.txt` exports are excluded from the new archive. The public images and useful UI primitives remain. Review `git diff` before committing; this archive does not contain or replace your repository history.
+
+## Implemented
+
+- One shared, typed catalog with search, category/price filtering and price sorting.
+- Product detail routes, size selection, quantity controls and explicit out-of-stock feedback.
+- Persistent browser basket and wishlist; invalid saved data and storage errors recover safely.
+- A guest checkout details form and explicit unpaid preview.
+- Shared navigation/footer and consistent layouts, colors, spacing and motion behavior.
+- Mobile navigation, focus indicators, visible form labels, status/error feedback and reduced-motion support.
+- Firebase email signup/login, optional Google/GitHub popup sign-in, password reset and logout.
+- Session restoration using the Firebase observer; per-sign-in local or tab persistence.
+- Real Firebase display-name saving, verification emails, verification status refresh, and reauthenticated password changes.
+- Account route guards with a loading state and safe sign-in return paths.
+- Honest dashboard counts from local shopping state; no invented purchase history.
+- Error, loading, empty and not-found pages.
+
+## Architecture
+
+```text
+app/                      Next.js routes, metadata and layouts
+components/shop/          Shopping UI
+components/auth/          Shared account form
+components/home/          Home page sections
+components/web/           Shared storefront navigation/footer
+components/ui/            Preserved UI primitives
+context/                  Auth and shopping providers
+lib/shop/catalog.ts       Single demo catalog and filtering
+lib/shop/cart.ts          Basket validation, stock limits and totals
+lib/shop/store.ts         Browser persistence adapter
+lib/shop/checkout.ts      Validation and unpaid review snapshot
+lib/firebase.ts           Lazy browser-only Firebase initialization
+lib/auth.ts               Firebase actions, persistence and safe errors
+lib/navigation.ts         Safe internal return paths
+docs/                     Setup, findings, imagery and verification
+tests/                    Focused behavior and structure checks
+```
+
+There is no order API, database integration, admin role or server-side private-data endpoint in this version. The account guard is a UI guard, not a substitute for data authorization. Firebase enforces account operations; database/storage rule files are locked for this Auth-only stage. See the authorization assessment in `docs/FIREBASE.md` before deploying rules.
+
+The catalog and shopping adapters are kept outside the UI so future authoritative catalog/inventory/order APIs can replace them. Frontend prices, stock and local storage must never be trusted when payments are added.
+
+## Verify
+
+```bash
+npm test
+npm run typecheck
+npm run lint
+npm run build
+```
+
+Sixteen focused tests, full-project TypeScript checking, ESLint and the Next.js production build passed during the October 17 update. The typecheck command generates Next.js route types before checking, so it also works in a fresh extraction without an existing build directory. Firebase adapter tests use SDK test doubles, not live accounts.
+
+**Browser interaction/layout QA, live Firebase sign-in, email delivery and deployed security rules remain unverified.** Nothing was deployed. Use the manual matrix in [Verification](docs/VERIFICATION.md) to check mobile layouts, keyboard interaction and your Firebase project before deployment. No Lighthouse or complete accessibility audit result is claimed.
+
+## Project notes
+
+- [Review and implementation](docs/PROJECT_REVIEW.md)
+- [Design refinement and screenshot references](docs/REDESIGN.md)
+- [Firebase configuration and authorization](docs/FIREBASE.md)
+- [Imagery, sources and licensing](docs/IMAGERY.md)
+- [Verification matrix](docs/VERIFICATION.md)
+
+Code retains the existing MIT license. Image rights are separate. The original asset licenses were not supplied and remain unresolved; see `docs/IMAGERY.md` before commercial publication.

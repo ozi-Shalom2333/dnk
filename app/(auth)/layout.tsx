@@ -1,19 +1,19 @@
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { buttonVariants } from "@/components/ui/button"
-
-
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { BrandLogo } from "@/components/web/brand-logo";
 export default function AuthLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode
-}>) {
-    return (
-        <div className="relative min-h-screen flex items-center justify-center">
-          <div className="absolute top-10 left-6 z-100 rounded-full shadow-lg hover:shadow-xl transition-all ">
-            <Link href="/" className={buttonVariants({variant:"secondary"})}><ArrowLeft />Go Back</Link>
-          </div>
-            {children}
-        </div>
-    )
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  return <div className="auth-shell">
+    <Link href="#main-content" className="skip-link">Skip to content</Link>
+    <div className="site-width auth-top">
+      <BrandLogo />
+      <Link href="/everything" className="text-link"><ArrowLeft size={15} aria-hidden="true" />Back to shopping</Link>
+    </div>
+    <main id="main-content" tabIndex={-1} className="auth-content">
+      {children}
+    </main>
+  </div>;
 }

@@ -1,35 +1,35 @@
-"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import women from "@/public/women-fashion-free-img.webp";
+import men from "@/public/men-fashion-free-img.webp";
+import accessories from "@/public/product-bag1.webp";
 
-import { motion } from "framer-motion";
-import Card from "./card";
-import CaroselSlider from "./caroselSlider";
+const categories = [
+  { name: "Women", copy: "Everyday pieces. Your own style.", image: women, href: "/everything?category=Women" },
+  { name: "Men", copy: "Easy essentials for every day.", image: men, href: "/everything?category=Men" },
+  { name: "Accessories", copy: "The details make the difference.", image: accessories, href: "/everything?category=Accessories" },
+];
 
 export default function PromoSection() {
   return (
-    <section className="bg-white py-12 min-h-[40vh] md:min-h-[60vh] lg:min-h-screen flex flex-col items-center gap-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full"
-      >
-        <CaroselSlider />
-      </motion.div>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-        whileHover={{ 
-          y: -5,
-          transition: { duration: 0.2 }
-        }}
-        className="w-full"
-      >
-        <Card />
-      </motion.div>
+    <section className="site-width section-space collections-section" id="collections" aria-labelledby="collections-heading">
+      <div className="section-heading section-heading--center">
+        <p className="eyebrow">Find something that feels like you</p>
+        <h2 id="collections-heading">Shop by Category</h2>
+      </div>
+      <div className="category-grid">
+        {categories.map(category => (
+          <Link href={category.href} key={category.name} className={"category-tile" + (category.name === "Accessories" ? " category-tile--product" : "")}>
+            <Image src={category.image} alt="" fill sizes="(max-width:700px) 90vw, 33vw" placeholder="blur" className="category-photo" />
+            <div className="category-copy">
+              <h3>{category.name}</h3>
+              <p>{category.copy}</p>
+              <span className="category-action">Shop collection <ArrowRight size={17} aria-hidden="true" /></span>
+            </div>
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }
